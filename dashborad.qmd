@@ -1,0 +1,81 @@
+---
+title: "Age of Planes Dashboard"
+format: html
+editor: visual
+page-layout: full
+---
+
+## Boeing Airplane Dashboard
+
+Welcome to Boeing’s internal dashboard. This dashboard visualizes the relationship between the age of airplanes and their operations.
+
+![](images/clipboard-816238611.png)
+
+```{r}
+#| warning: false
+library(tidyverse)
+library(ggplot2)
+library(nycflights13)
+library(nycflights13)
+library(dplyr)
+library(ggplot2)
+library(lubridate)
+library(tidyverse)
+library(dplyr)
+library(ggplot2)
+library(nycflights13)
+```
+
+**Chart 1 : Departure by Plane Age**
+
+```{r}
+#| message: false
+#| warning: false
+flights_planes <- planes %>%
+  mutate(age = 2013 - year) %>%
+  right_join(flights, by = join_by(tailnum))
+
+
+ ggplot(flights_planes, aes(x = age, y = dep_delay)) +
+  geom_smooth(method = "gam", se = TRUE) +
+  labs(
+    title = "Departure Delay by Plane Age",
+    x = "Age of Plane (Years)",
+    y = "Departure Delay (minutes)"
+  ) +
+  coord_cartesian(ylim = c(-10, 100))
+flights_planes <- flights_planes %>% 
+  mutate(age_group = case_when (
+     age <= 10 ~ "0-10",
+    age <= 20 ~ "11-20",
+    age <= 30 ~ "21-30",
+    age > 30 ~ ">30"
+  ))
+```
+
+**CHART 2 : Distribution of Plane Age by Airline**
+
+```{r}
+#| message: false
+#| warning: false
+flight_planes_airlines <- flights_planes %>% 
+  right_join(airlines, by ="carrier")
+ggplot(flight_planes_airlines, aes(x= name, y = age)) + 
+  geom_boxplot()+
+  labs(title = "Distribution of Plane Age by Airline", 
+       x = "Airline" , y = "Age of Plane (Year)") + 
+  theme(axis.text.x = element_text(angle = 45, hjust =1))
+
+```
+
+**CHART 3 : Plane Age vs Flight Distance**
+
+```{r}
+#| message: false
+#| warning: false
+ggplot(flight_planes_airlines, aes(x = age, y = distance)) +
+  geom_point(alpha = 0.3) + 
+  geom_smooth(method = "gam", se = FALSE, color = "blue") + 
+  labs(title = "Plane Age vs Flight Distance ", 
+       x= "Age of Plane (Year)", y= "Distance (miles)")
+```
