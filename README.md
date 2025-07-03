@@ -1,6 +1,5 @@
 ## Hi there 👋
-
-<!--
+I builed a dashboard that includes the 3 charts that I created in the Age of Planes analysis.
 **EstherCalderonB/EstherCalderonB** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
 
 Here are some ideas to get you started:
